@@ -19,7 +19,25 @@ export default function App() {
 		const prepare = async() => {
 			try {
 			await Font.loadAsync({	
-				"regular": require("./assets/fonts/Bellota-Regular.ttf")
+				"Bellota": require("./assets/fonts/Bellota-Regular.ttf"),
+				"Adevent": require("./assets/fonts/AdventPro-VariableFont_wdth,wght.ttf"),
+				"Aguafina": require("./assets/fonts/AguafinaScript-Regular.ttf"),
+				"Barrio": require("./assets/fonts/Barrio-Regular.ttf"),
+				"Amatic": require("./assets/fonts/AmaticSC-Regular.ttf"),
+				"BlackOps": require("./assets/fonts/BlackOpsOne-Regular.ttf"),
+				"Caveat": require("./assets/fonts/Caveat-VariableFont_wght.ttf"),
+				"Chakra": require("./assets/fonts/ChakraPetch-Regular.ttf"),
+				"Croissant": require("./assets/fonts/CroissantOne-Regular.ttf"),
+				"Dancing": require("./assets/fonts/DancingScript-VariableFont_wght.ttf"),
+				"Hammer": require("./assets/fonts/HammersmithOne-Regular.ttf"),
+				"Itim": require("./assets/fonts/Itim-Regular.ttf"),
+				"Lilita": require("./assets/fonts/LilitaOne-Regular.ttf"),
+				"Montserrat": require("./assets/fonts/Montserrat-VariableFont_wght.ttf"),
+				"Orbitron": require("./assets/fonts/Orbitron-VariableFont_wght.ttf"),
+				"Rajdhani": require("./assets/fonts/Rajdhani-Regular.ttf"),
+				"SedgwickAve": require("./assets/fonts/SedgwickAve-Regular.ttf"),
+				"Shadows": require("./assets/fonts/ShadowsIntoLight-Regular.ttf"),
+				"TiltNeon": require("./assets/fonts/TiltNeon-Regular-VariableFont_XROT,YROT.ttf"),
 			})
 			}
 			catch (error) {
@@ -73,11 +91,11 @@ const styles = StyleSheet.create({
     backgroundColor: '#ffffff',
     alignItems: 'center',
     justifyContent: 'center',
-    fontFamily: "regular",
+    fontFamily: "Bellota",
   },
   label: {
 	color: '#000000',
 	fontSize: 18,
-	fontFamily: "regular",
+	fontFamily: "Bellota",
   }
 });
