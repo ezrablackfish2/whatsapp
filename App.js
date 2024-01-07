@@ -64,7 +64,7 @@ export default function App() {
             <Stack.Screen name="Home" component={ChatListScreen} />
           </Stack.Navigator>
         </NavigationContainer>
-	<Text style = {styles.label}>Weather</Text>
+	<Text style = {styles.label}>Hi everyone</Text>
     </SafeAreaProvider>
   );
 }
