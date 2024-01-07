@@ -7,6 +7,7 @@ import * as SplashScreen from 'expo-splash-screen';
 import * as Font from 'expo-font';
 
 import ChatListScreen from './screens/ChatListScreen';
+import ChatSettingsScreen from './screens/ChatSettingsScreen';
 
 SplashScreen.preventAutoHideAsync();
 
@@ -62,6 +63,7 @@ export default function App() {
         <NavigationContainer>
           <Stack.Navigator>
             <Stack.Screen name="Home" component={ChatListScreen} />
+            <Stack.Screen name="ChatSettings" component={ChatSettingsScreen} />
           </Stack.Navigator>
         </NavigationContainer>
 	<Text style = {styles.label}>Hi everyone</Text>
