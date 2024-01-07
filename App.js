@@ -58,7 +58,7 @@ export default function App() {
   }
 
   return (
-    <SafeAreaProvider>
+    <SafeAreaProvider onLayout={onLayout}>
         <NavigationContainer>
           <Stack.Navigator>
             <Stack.Screen name="Home" component={ChatListScreen} />
