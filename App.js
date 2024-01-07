@@ -1,12 +1,21 @@
+import 'react-native-gesture-handler';
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View, Button } from 'react-native';
 import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
 import { useState, useEffect, useCallback } from "react";
 import * as SplashScreen from "expo-splash-screen";
 import * as Font from "expo-font";
+import { NavigationContainer } from '@react-navigation/native';
+import { createStackNavigator } from '@react-navigation/stack'
 
+
+import ChatListScreen from "./screens/ChatListScreen";;
 
 SplashScreen.preventAutoHideAsync();
+
+const Stack = createStackNavigator();
+
+
 
 export default function App() {
 
@@ -77,7 +86,12 @@ export default function App() {
 
       <Text style={styles.label}> Hi everyone !!</Text>
 
+		<NavigationContainer>
+	      <Stack.Navigator>
+      		<Stack.Screen name="Home" component={ ChatListScreen } />
+	  	</Stack.Navigator>
 
+		</NavigationContainer>
 
 
 	</SafeAreaView>
