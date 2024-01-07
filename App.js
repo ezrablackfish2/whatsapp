@@ -9,7 +9,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack'
 
 
-import ChatListScreen from "./screens/ChatListScreen";;
+import ChatListScreen from "./screens/ChatListScreen";
 
 SplashScreen.preventAutoHideAsync();
 
