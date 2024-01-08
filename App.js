@@ -6,6 +6,8 @@ import { createStackNavigator } from '@react-navigation/stack';
 import * as SplashScreen from 'expo-splash-screen';
 import * as Font from 'expo-font';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { Ionicons } from '@expo/vector-icons';
+import { Feather } from '@expo/vector-icons';
 
 
 import ChatListScreen from './screens/ChatListScreen';
@@ -23,8 +25,18 @@ const TabNavigator = () => {
 		screenOptions={{
 			headerTitle: '',
 		}}>
-      		<Tab.Screen name="ChatList" component={ChatListScreen} options={{tabBarLabel: "Chats"}} />
-      		<Tab.Screen name="Settings" component={SettingsScreen} options={{tabBarLabel: "Settings"}}  />
+      		<Tab.Screen name="ChatList" component={ChatListScreen} options={{
+			tabBarLabel: "Chats",
+			tabBarIcon: ( { color, size }) => (
+				<Ionicons name="chatbubble-outline" size={ size } color={ color } />
+			)
+		}} />
+      		<Tab.Screen name="Settings" component={SettingsScreen} options={{
+		tabBarLabel: "Settings",
+		tabBarIcon: ({ color, size}) => (
+			<Ionicons name="settings-outline" size={ size } color={ color } />
+			)
+		}}  />
     	</Tab.Navigator>
 	)
 }
@@ -90,7 +102,6 @@ export default function App() {
 		    }} />
           </Stack.Navigator>
         </NavigationContainer>
-	<Text style = {styles.label}>Hi everyone</Text>
     </SafeAreaProvider>
   );
 }
