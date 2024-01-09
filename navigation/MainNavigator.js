@@ -7,6 +7,8 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { Ionicons } from '@expo/vector-icons';
 import { Feather } from '@expo/vector-icons';
 
+import ChatScreen from "../screens/ChatScreen.js";
+
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -38,7 +40,7 @@ const MainNavigator = (props) => {
 	return (
           <Stack.Navigator>
             <Stack.Screen name="Home" component={TabNavigator} options={{ headerShown: false }}/>
-            <Stack.Screen name="ChatSettings" component={ChatSettingsScreen} options={{
+            <Stack.Screen name="ChatScreen" component={ChatScreen} options={{
 		    	headerTitle: "",
 		    	gestureEnabled: true,
 			animationEnabled: true,
@@ -46,6 +48,15 @@ const MainNavigator = (props) => {
 			headerBackTitle: "Go Back",
 			headerShadowVisible: true,
 		    }} />
+		<Stack.Screen name="ChatSettings" component={ChatSettingsScreen} options={{
+		    	headerTitle: "",
+		    	gestureEnabled: true,
+			animationEnabled: true,
+			presentation: "modal",
+			headerBackTitle: "Go Back",
+			headerShadowVisible: true,
+		    }} />
+
           </Stack.Navigator>
 		
 	);
