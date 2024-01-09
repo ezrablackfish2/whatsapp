@@ -1,13 +1,15 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { View, Text, StyleSheet, Button, ImageBackground, TextInput, TouchableOpacity } from 'react-native';
 import backgroundImage from "../assets/images/droplet.jpeg";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Feather } from '@expo/vector-icons';
-import colors from "../constants/colors";
+import colors from "../constants/colors.js";
 
 
 const ChatScreen = props => {
-    
+   
+	const [messageText, setMessageText] = useState("");
+
     return (
 	    <SafeAreaView 
 		edges={["right", "left", "bottom"]}
@@ -23,14 +25,32 @@ const ChatScreen = props => {
 		<Feather name="plus" size={24} color={colors.blue} />
 	    	</TouchableOpacity>
 
-	    	<TextInput style={styles.textbox} />
+	    	<TextInput 
+	    	style={styles.textbox}
+	    	value={messageText}
+		onChangeText={(text) => setMessageText(text)}
+	    />
 
-	    	<TouchableOpacity 
-	    	style={styles.mediaButton}
-	    	onPress={() => console.log("Pressed")
+	    	{
+			messageText === "" && 
+			<TouchableOpacity 
+	    			style={styles.mediaButton}
+	    			onPress={() => console.log("Pressed")
 		}>
-		<Feather name="camera" size={24} color={colors.blue} />
-	    	</TouchableOpacity>
+				<Feather name="camera" size={24} color={colors.blue} />
+	    		</TouchableOpacity>
+		}
+
+		{
+			messageText !== "" && 
+			<TouchableOpacity 
+	    			style={styles.mediaButton}
+	    			onPress={() => console.log("Pressed")
+		}>
+				<Feather name="send" size={24} color={colors.blue} />
+	    		</TouchableOpacity>
+		}
+
 	    </View>
 	    </SafeAreaView>
     );
