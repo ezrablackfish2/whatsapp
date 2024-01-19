@@ -1,19 +1,31 @@
-import React, { useState } from 'react';
-import { View, Text, StyleSheet, Button, ImageBackground, TextInput, TouchableOpacity } from 'react-native';
+import React, { useCallback, useState } from 'react';
+import { View, Text, StyleSheet, Button, ImageBackground, TextInput, TouchableOpacity, KeyboardAvoidingView, Platform  } from 'react-native';
 import backgroundImage from "../assets/images/droplet.jpeg";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Feather } from '@expo/vector-icons';
 import colors from "../constants/colors.js";
 
-
 const ChatScreen = props => {
    
 	const [messageText, setMessageText] = useState("");
+
+	const sendMessage = useCallback( () => {
+		setMessageText("");	
+	}, [messageText]);
 
     return (
 	    <SafeAreaView 
 		edges={["right", "left", "bottom"]}
 	    style={styles.container}>
+
+	    	<KeyboardAvoidingView 
+	    		style={styles.screen}
+			behavior={ Platform.OS === "ios" ? "padding" : undefined }
+	    		keyboardVerticalOffset={100}
+	    >
+
+
+
 		<ImageBackground source={backgroundImage} style={styles.backgroundImage}>
 
 	    	</ImageBackground>
@@ -45,13 +57,13 @@ const ChatScreen = props => {
 			messageText !== "" && 
 			<TouchableOpacity 
 	    			style={{ ...styles.mediaButton, ...styles.sendButton }}
-	    			onPress={() => console.log("Pressed")
-		}>
+	    			onPress={sendMessage}>
 				<Feather name="send" size={20} color={"white"} />
 	    		</TouchableOpacity>
 		}
 
 	    </View>
+	    	</KeyboardAvoidingView>
 	    </SafeAreaView>
     );
 };
@@ -64,6 +76,9 @@ const styles = StyleSheet.create({
 	label : {
 		fontFamily: "Bellota",
 		fontSize: 20,
+	},
+	screen : {
+		flex: 1,
 	},
 	backgroundImage: {
 		flex: 1,
@@ -92,7 +107,7 @@ const styles = StyleSheet.create({
 		borderRadius: 50,
 		padding: 8,
 		width: 35,
-	}
+	},
 });
 
 export default ChatScreen;
