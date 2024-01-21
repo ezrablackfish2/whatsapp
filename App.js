@@ -11,12 +11,11 @@ import { store } from './store/store'
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 SplashScreen.preventAutoHideAsync();
- // AsyncStorage.clear();
+// AsyncStorage.clear();
 
 
-LogBox.ignoreLogs([
-  '@firebase/auth: Auth (10.7.2): You are initializing Firebase Auth for React Native without providing AsyncStorage.',
-]);
+
+
 
 
 export default function App() {
@@ -24,6 +23,9 @@ export default function App() {
 
   useEffect(() => {
 	  loadFonts(setAppIsLoaded);
+	  LogBox.ignoreLogs([
+  '@firebase/auth: Auth (10.7.2): You are initializing Firebase Auth for React Native without providing AsyncStorage.',
+]);
   }, []);
 
   const onLayout = useCallback(async () => {

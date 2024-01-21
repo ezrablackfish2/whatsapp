@@ -10,19 +10,20 @@ import SubmitButton from "../components/SubmitButton";
 import { validateInput } from "../utils/actions/formActions";
 import { reducer } from "../utils/reducers/formReducers";
 import { signIn } from "../utils/actions/authAction";
+import colors from "../constants/colors";
 
-
+const isTestMode = true;
 
 const initialState = {
 	inputValues: {
-		email: "",
-		password: "",	
+		email: isTestMode ? "son@gmail.com": "",
+		password: isTestMode ? "son1234": "",	
 	},	
 	inputValidities: {
-		email: false,
-		password: false,
+		email: isTestMode,
+		password: isTestMode,
 	},
-	formIsValid: false,
+	formIsValid: isTestMode,
 }
 
 
@@ -74,6 +75,7 @@ const SignInForm = props => {
 	    autoCapitalize="none"
 	    keyboardType="email-address"
 	    onInputChanged={inputChangeHandler}
+	    value={formState.inputValues.email}
 	    errorText={formState.inputValidities["email"]}
 	    />
 	<Input 
@@ -84,15 +86,20 @@ const SignInForm = props => {
 	    autoCapitalize="none"
 	    secureTextEntry
 	    onInputChanged={inputChangeHandler}
+	    value={formState.inputValues.password}
 	    errorText={formState.inputValidities["password"]}
 	    />
 
-	<SubmitButton 
-	    title="Sign In"
-	    onPress={authHandler}
-	    style={{ marginTop: 20 }}
-	    disabled={!formState.formIsValid}
-	    />
+		{
+			isLoading ?
+			<ActivityIndicator size={"small"} color={colors.primary} style={{ marginTop: 10 }}/> :
+		<SubmitButton 
+	   	 	title="Sign In"
+	   	 	onPress={authHandler}
+	   	 	style={{ marginTop: 20 }}
+	   	 	disabled={!formState.formIsValid}
+	    	/>
+		}
 	</>
  
 	);
