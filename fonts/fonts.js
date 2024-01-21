@@ -24,7 +24,10 @@ export async function loadFonts(setAppIsLoaded) {
 	  
         });
       } catch (error) {
-        console.log(error);
+        if (error.message !== "Font.loadAsync unexpected exception: Font not found /data/user/0/host.exp.exponent/cache/ExponentAsset-9bd9bde59dc816ef93cd18069b65a40e.ttf") 
+	{
+    	console.log(error);
+  	}
       } finally {
         setAppIsLoaded(true);
       }

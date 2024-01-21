@@ -1,15 +1,22 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { View, StyleSheet, Text } from 'react-native';
+import { LogBox, View, StyleSheet, Text } from 'react-native';
 import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
+import { Provider } from 'react-redux'
+
 import * as SplashScreen from 'expo-splash-screen';
 import * as Font from 'expo-font';
 import AppNavigator from "./navigation/AppNavigator.js";
 import { loadFonts } from './fonts/fonts';
-
+import { store } from './store/store'
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 SplashScreen.preventAutoHideAsync();
+ AsyncStorage.clear();
 
 
+LogBox.ignoreLogs([
+  '@firebase/auth: Auth (10.7.2): You are initializing Firebase Auth for React Native without providing AsyncStorage.',
+]);
 
 
 export default function App() {
@@ -30,9 +37,11 @@ export default function App() {
   }
 
   return (
-    <SafeAreaProvider style={styles.container} onLayout={onLayout}>
-	<AppNavigator />
-    </SafeAreaProvider>
+	<Provider store={store}>
+	    <SafeAreaProvider style={styles.container} onLayout={onLayout}>
+		<AppNavigator />
+	    </SafeAreaProvider>
+	</Provider>
   );
 }
 
