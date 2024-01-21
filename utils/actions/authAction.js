@@ -65,7 +65,6 @@ export const signIn = (email, password) => {
 		}
 		catch (error) {
 			const errorCode = error.code;
-			console.log(error.code);
 	
 			let message = "Something wen wrong";
 	
