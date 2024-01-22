@@ -2,7 +2,7 @@ import React, { useCallback, useReducer, useState } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import { FontAwesome, Feather } from "@expo/vector-icons";
 import { useSelector, useDispatch } from "react-redux";
-import { Alert, ActivityIndicator  } from "react-native";
+import { Alert, ActivityIndicator, ScrollView  } from "react-native";
 
 
 import PageTitle from "../components/PageTitle";
@@ -14,6 +14,7 @@ import colors from "../constants/colors";
 import SubmitButton from "../components/SubmitButton";
 import { updateSignedInUserData, userLogout } from "../utils/actions/authAction";
 import { updateLoggedInUserData } from "../store/authSlice";
+import ProfileImage from "../components/ProfileImage";
 
 
 const SettingsScreen = props => {
@@ -23,14 +24,20 @@ const SettingsScreen = props => {
 	const [isLoading, setIsLoading] = useState(false);
 	const [showSuccessMessage, setShowSuccessMessagge] = useState(false);
 	const userData = useSelector(state => state.auth.userData);
-	console.log(userData);
+
+
+	const firstName = userData.firstName || ""; 
+	const lastName = userData.lastName || ""; 
+	const email = userData.email || ""; 
+	const about = userData.about || ""; 
+
 
 	const initialState = {
 	inputValues: {
-		firstName: userData.firstName || "",
-		lastName: userData.lastName || "",
-		email: userData.email || "",
-		about: userData.about || "",	
+		firstName,
+		lastName,
+		email,
+		about,	
 	},
 	inputValidities: {
 		firstName: undefined,
@@ -51,7 +58,7 @@ const SettingsScreen = props => {
 		dispatchFormState({ inputId, validationResult: result, inputValue })
 	}, [dispatchFormState]);
 
-	const saveHandler = async () => {
+	const saveHandler = useCallback(async () => {
 		const updatedValues = formState.inputValues;
 
 		try {
@@ -69,13 +76,30 @@ const SettingsScreen = props => {
 		finally {
 			setIsLoading(false);
 		}
-	}
+	}, [formState, dispatch]);
 
+
+	const hasChanges = () => {
+		const currentValues = formState.inputValues;
+
+		return (
+			currentValues.firstName != firstName  ||
+			currentValues.lastName != lastName  ||
+			currentValues.email != email  ||
+			currentValues.about != about
+		);
+
+
+	};
     
     return (
 
 	<PageContainer>
 	    <PageTitle  text="Settings" />
+
+	    <ScrollView contentContainerStyle={styles.formContainer}>
+
+	    <ProfileImage size={80} />
 
 	<Input
 		id="firstName"
@@ -129,7 +153,7 @@ const SettingsScreen = props => {
 	{
 		isLoading ?
 		<ActivityIndicator size={"small"} color={colors.primary} style={{ marginTop: 10 }}/> :
-		<SubmitButton 
+		hasChanges() && <SubmitButton 
 	   	 	title="Save"
 	   	 	onPress={saveHandler}
 	   	 	style={{ marginTop: 20 }}
@@ -144,16 +168,19 @@ const SettingsScreen = props => {
 	   	style={{ marginTop: 20 }}
 	    	color={colors.red}
 		/>
+	    </ScrollView>
     </PageContainer>
 
     );
 };
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    
-  },
+  	container: {
+    		flex: 1, 
+  	},
+	formContainer: {
+		alignItems: "center",
+	},
 });
 
 export default SettingsScreen;
