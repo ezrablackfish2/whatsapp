@@ -9,7 +9,6 @@ import { FontAwesome } from '@expo/vector-icons';
 const Input = props => {
 
 	const [value, setValue] = useState(props.initialValue);
-	console.log(value);
 
 	const onChangeText= text => {
 		setValue(text);
