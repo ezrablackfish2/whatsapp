@@ -11,7 +11,7 @@ const DataItem = props => {
 	
 
 	return (
-		<TouchableWithoutFeedback>
+		<TouchableWithoutFeedback onPress={props.onPress}>
 			<View style={styles.container}>
 
 				<ProfileImage 

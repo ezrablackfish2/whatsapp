@@ -8,16 +8,23 @@ import colors from "../constants/colors";
 import commonStyles from "../constants/commonStyles";
 import { searchUsers } from "../utils/actions/userActions";
 import DataItem from "../components/DataItem";
+import { useSelector, useDispatch } from "react-redux";
+import { setStoredUsers } from "../store/userSlice";
+
+
 
 
 const NewChatScreen = props => {
 
-
+		const dispatch = useDispatch();
+		
 		const [isLoading, setIsLoading] = useState(false);
 		const [users, setUsers] = useState();
 		const [noResultsFound, setNoResultsFound] = useState(false);
 		const [searchTerm, setSearchTerm] = useState("");
     
+
+		const userData = useSelector(state => state.auth.userData);
 
 	    useEffect(() => {
 		    	props.navigation.setOptions({
@@ -46,6 +53,7 @@ const NewChatScreen = props => {
 			setIsLoading(true);
 
 			const usersResult = await searchUsers(searchTerm);
+			delete usersResult[userData.userId];
 			setUsers(usersResult);
 
 			if (Object.keys(usersResult).length === 0) {
@@ -53,6 +61,10 @@ const NewChatScreen = props => {
 			}
 			else {
 				setNoResultsFound(false);
+
+				dispatch(setStoredUsers({
+					newUsers: usersResult
+				}));
 			}
 
 			setIsLoading(false);
@@ -60,6 +72,14 @@ const NewChatScreen = props => {
 
 		return () => clearTimeout(delaySearch);
 	}, [searchTerm]);
+
+
+	const userPressed = userId => {
+		props.navigation.navigate("ChatList", {
+			selectedUserId: userId
+		}
+		);
+	}
     
 	return (
 		<PageContainer>
@@ -97,6 +117,7 @@ const NewChatScreen = props => {
 							title={`${userData.firstName} ${userData.lastName}`}
 							subTitle={userData.about}
 							image={userData.profilePicture}
+							onPress={() => userPressed(userId)}
 							/>
 					}}
 				/>
