@@ -5,6 +5,9 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { Feather } from '@expo/vector-icons';
 import colors from "../constants/colors.js";
 import { useSelector, useDispatch } from "react-redux";
+import PageContainer from "../components/PageContainer"
+import Bubble from "../components/Bubble";
+import { createChat } from "../utils/actions/chatActions";
 
 
 const ChatScreen = props => {
@@ -14,6 +17,7 @@ const ChatScreen = props => {
   
 	const [chatUsers, setChatUsers] = useState([]);
 	const [messageText, setMessageText] = useState("");
+	const [chatId, setChatId] = useState(props.route?.params?.chatId);
 
 	const chatData = props.route?.params?.newChatData;
 
@@ -33,9 +37,25 @@ const ChatScreen = props => {
 		setChatUsers(chatData.users);
 	}, [chatUsers])
 
-	const sendMessage = useCallback( () => {
+	const sendMessage = useCallback( async () => {
+
+
+		try {
+			let id = chatId;
+			if (!id) {
+				id = await createChat(userData.userId, props.route.params.newChatData);
+				setChatId(id);
+			}
+
+
+
+		} catch (error) {
+
+		}
+
+
 		setMessageText("");	
-	}, [messageText]);
+	}, [messageText, chatId, createChat, userData.userId, props.route.params.newChatData]);
 
     return (
 	    <SafeAreaView 
@@ -51,6 +71,14 @@ const ChatScreen = props => {
 
 
 		<ImageBackground source={backgroundImage} style={styles.backgroundImage}>
+
+	    <PageContainer style={{ backgroundColor: "transparent" }}>
+	
+		{
+			!chatId && <Bubble text="This is a new chat. Say Hi" type="system" />	
+		}
+
+	    </PageContainer>
 
 	    	</ImageBackground>
 	    <View style={styles.inputContainer}>
