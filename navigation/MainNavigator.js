@@ -18,7 +18,7 @@ import { setChatsData } from "../store/chatSlice";
 import colors from "../constants/colors";
 import commonStyles from "../constants/commonStyles";
 import { setStoredUsers } from "../store/userSlice";
-
+import { setChatMessages } from "../store/messagesSlice";
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -135,7 +135,7 @@ const MainNavigator = (props) => {
 
 							get(userRef)
 							.then(userSnapshot => {
-								const userSnapshotData = userSnapshot.val();
+							const userSnapshotData = userSnapshot.val();
 								dispatch(setStoredUsers({
 									newUsers:{ userSnapshotData }
 								}));
@@ -155,6 +155,14 @@ const MainNavigator = (props) => {
 					dispatch(setChatsData({ chatsData }));
 					setIsLoading(false);
 					}
+				})
+
+				const messagesRef = child(dbRef, `messages/${chatId}`);
+				refs.push(messagesRef);
+
+				onValue(messagesRef, messagesSnaphshot => {
+  				const messagesData = messagesSnaphshot.val();
+					dispatch(setChatMessages({ chatId, messagesData }));
 				})
 
 				if (chatsFoundCount == 0) {

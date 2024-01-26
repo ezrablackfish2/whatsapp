@@ -8,6 +8,7 @@ import { useSelector, useDispatch } from "react-redux";
 import PageContainer from "../components/PageContainer"
 import Bubble from "../components/Bubble";
 import { createChat } from "../utils/actions/chatActions";
+import { sendTextMessage } from "../utils/actions/chatActions";
 
 
 const ChatScreen = props => {
@@ -17,6 +18,8 @@ const ChatScreen = props => {
 	const userData = useSelector(state => state.auth.userData);
 	const storedUsers = useSelector(state => state.users.storedUsers);
 	const storedChats = useSelector(state => state.chats.chatsData);
+	const chatMessages = useSelector(state => state.messages.messagesData);
+	console.log(chatMessages);
 
   
 	const [chatUsers, setChatUsers] = useState([]);
@@ -51,11 +54,16 @@ const ChatScreen = props => {
 				setChatId(id);
 			}
 
+			await sendTextMessage(chatId, userData.userId, messageText);
 
 
 		} catch (error) {
 
+			console.error(error);
+
 		}
+
+
 
 
 		setMessageText("");	
