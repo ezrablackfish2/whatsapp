@@ -9,6 +9,7 @@ import PageContainer from "../components/PageContainer"
 import Bubble from "../components/Bubble";
 import { createChat } from "../utils/actions/chatActions";
 import { sendTextMessage } from "../utils/actions/chatActions";
+import ReplyTo from "../components/ReplyTo";
 
 
 const ChatScreen = props => {
@@ -17,6 +18,7 @@ const ChatScreen = props => {
 	const [messageText, setMessageText] = useState("");
 	const [chatId, setChatId] = useState(props.route?.params?.chatId);
 	const [errorBannerText, setErrorBannerText] = useState("");
+	const [replyingTo, setReplyingTo] = useState();
 
 
 
@@ -132,12 +134,23 @@ const ChatScreen = props => {
 					userId={userData.userId}
 					chatId={chatId}
 					date={message.sentAt}
+					setReply={() => setReplyingTo(message)}
 					/>
 			}}
 		/>
 	    }
 
 	    </PageContainer>
+
+	    	{
+			replyingTo && 
+			<ReplyTo 
+				text={replyingTo.text}
+				user={storedUsers[replyingTo.sentBy]}
+				onCancel={() => setReplyingTo(null)}
+				
+			/>
+		}
 
 	    	</ImageBackground>
 	    <View style={styles.inputContainer}>
