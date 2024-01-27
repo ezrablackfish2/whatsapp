@@ -25,7 +25,7 @@ export const createChat = async (loggedInUserId, chatData) => {
 }
 
 
-export const sendTextMessage = async (chatId, senderId, messageText) => {
+export const sendTextMessage = async (chatId, senderId, messageText, replyTo) => {
 	const app = getFirebaseApp();
 	const dbRef = ref(getDatabase());
 	const messagesRef = child(dbRef, `messages/${chatId}`);
@@ -37,6 +37,11 @@ export const sendTextMessage = async (chatId, senderId, messageText) => {
 		text: messageText
 	};
 
+
+	if (replyTo) {
+		messageData.replyTo = replyTo;
+	}
+	
 	await push (messagesRef, messageData);
 
 	const chatRef = child(dbRef, `chats/${chatId}`);
