@@ -2,6 +2,7 @@ import React, { useState, useEffect, useCallback } from 'react';
 import { LogBox, View, StyleSheet, Text } from 'react-native';
 import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
 import { Provider } from 'react-redux'
+import { MenuProvider } from 'react-native-popup-menu';
 
 import * as SplashScreen from 'expo-splash-screen';
 import * as Font from 'expo-font';
@@ -41,7 +42,11 @@ export default function App() {
   return (
 	<Provider store={store}>
 	    <SafeAreaProvider style={styles.container} onLayout={onLayout}>
+
+	  	<MenuProvider>
 		<AppNavigator />
+		</MenuProvider>
+
 	    </SafeAreaProvider>
 	</Provider>
   );

@@ -44,7 +44,6 @@ const ChatScreen = props => {
 
 		return messageList;
 	});
-	console.log(chatMessages);
 
   
 	const chatData = (chatId && storedChats[chatId]) || props.route?.params?.newChatData;
