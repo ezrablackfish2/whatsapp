@@ -7,6 +7,16 @@ import * as Clipboard from "expo-clipboard";
 import { Feather, FontAwesome } from "@expo/vector-icons";
 import { useSelector, useDispatch } from "react-redux";
 
+function formatAmPm(dateString) {
+	const date = new Date(dateString);
+	var hours = date.getHours();
+	var minutes = date.getMinutes();
+	var ampm = hours >= 12 ? 'pm' : 'am';
+	hours = hours % 12;
+	hours = hours ? hours : 12; // the hour '0' should be '12'
+	minutes = minutes < 10 ? '0'+minutes : minutes;
+	return hours + ':' + minutes + ' ' + ampm;
+}
 
 import { starMessage } from "../utils/actions/chatActions";
 
@@ -19,6 +29,7 @@ const MenuItem = props => {
 			<Text style={styles.menuText}>
 			{props.text}
 			</Text>
+	
 			<Icon 
 				name={props.icon} 
 				size={18}
@@ -30,7 +41,7 @@ const MenuItem = props => {
 
 
 const Bubble = props => {
-	const { text, type, messageId, chatId, userId } = props;
+	const { text, type, messageId, chatId, userId, date } = props;
 
 
 	const starredMessages = useSelector(state => state.messages.starredMessages[chatId] ?? {});
@@ -44,6 +55,7 @@ const Bubble = props => {
 
 	let Container = View;
 	let isUserMessage = false;
+	const dateString = formatAmPm(date);
 
 
 	switch (type) {
@@ -88,6 +100,7 @@ const Bubble = props => {
 	const isStarred = isUserMessage && starredMessages[messageId] !== undefined;
 
 
+
 	return (
 		<View style={wrapperStyle}>
 			<Container onLongPress={() => menuRef.current.props.ctx.menuActions.openMenu(id.current)} style={{ width: "100%" }}>
@@ -95,6 +108,13 @@ const Bubble = props => {
 				<Text style={textStyle}>
 					{text}
 				</Text>
+
+			{
+			dateString && <View style={styles.timeContainer}>
+				{isStarred && <FontAwesome name="star" size={14} color={colors.grey} style={{ marginRight: 5 }} />}
+				<Text style={styles.time}>{dateString}</Text>
+			</View>
+		}
 
 			<Menu name={id.current} ref={menuRef}>
 				<MenuTrigger />
@@ -143,6 +163,17 @@ const styles = StyleSheet.create({
 		letterSpacing: 0.3,
 		fontSize: 16,
 
+	},
+	timeContainer: {
+		flexDirection: "row",
+		justifyContent: "flex-end",
+
+	},
+	time: {
+		fontFamily: "Rajdhani",
+		letterSpacing: 0.3,
+		color: colors.grey,
+		fontSize: 14,
 	},
 })
 
