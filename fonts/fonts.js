@@ -9,7 +9,6 @@ export async function loadFonts(setAppIsLoaded) {
 				"Barrio": require("../assets/fonts/Barrio-Regular.ttf"),
 				"Amatic": require("../assets/fonts/AmaticSC-Regular.ttf"),
 				"BlackOps": require("../assets/fonts/BlackOpsOne-Regular.ttf"),
-				"Caveat": require("../assets/fonts/Caveat-VariableFont_wght.ttf"),
 				"Chakra": require("../assets/fonts/ChakraPetch-Regular.ttf"),
 				"Croissant": require("../assets/fonts/CroissantOne-Regular.ttf"),
 				"Dancing": require("../assets/fonts/DancingScript-VariableFont_wght.ttf"),

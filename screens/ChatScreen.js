@@ -1,5 +1,5 @@
 import React, { useCallback, useState, useEffect } from 'react';
-import { View, Text, StyleSheet, Button, ImageBackground, TextInput, TouchableOpacity, KeyboardAvoidingView, Platform  } from 'react-native';
+import { View, Text, StyleSheet, Button, ImageBackground, TextInput, TouchableOpacity, KeyboardAvoidingView, Platform, FlatList  } from 'react-native';
 import backgroundImage from "../assets/images/droplet.jpeg";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Feather } from '@expo/vector-icons';
@@ -13,18 +13,40 @@ import { sendTextMessage } from "../utils/actions/chatActions";
 
 const ChatScreen = props => {
 
+	const [chatUsers, setChatUsers] = useState([]);
+	const [messageText, setMessageText] = useState("");
+	const [chatId, setChatId] = useState(props.route?.params?.chatId);
+	const [errorBannerText, setErrorBannerText] = useState("");
+
+
 
 
 	const userData = useSelector(state => state.auth.userData);
 	const storedUsers = useSelector(state => state.users.storedUsers);
 	const storedChats = useSelector(state => state.chats.chatsData);
-	const chatMessages = useSelector(state => state.messages.messagesData);
+	const chatMessages = useSelector(state => {
+		if (!chatId) return [];
+
+		const chatMessagesData = state.messages.messagesData[chatId];
+
+		if (!chatMessagesData) return [];
+
+
+		const messageList = [];
+
+		for (const key in chatMessagesData) {
+			const message = chatMessagesData[key];
+			messageList.push({
+				key,
+				...message
+			});
+		}
+
+		return messageList;
+	});
+	console.log(chatMessages);
 
   
-	const [chatUsers, setChatUsers] = useState([]);
-	const [messageText, setMessageText] = useState("");
-	const [chatId, setChatId] = useState(props.route?.params?.chatId);
-
 	const chatData = (chatId && storedChats[chatId]) || props.route?.params?.newChatData;
 
 	const getChatTitleFromName = () =>{
@@ -55,17 +77,19 @@ const ChatScreen = props => {
 
 			await sendTextMessage(chatId, userData.userId, messageText);
 
+			setMessageText("");	
 
 		} catch (error) {
 
 			console.error(error);
+			setErrorBannerText("Message failed to send");
+			setTimeout(() => setErrorBannerText(""), 5000);
 
 		}
 
 
 
 
-		setMessageText("");	
 	}, [messageText, chatId, createChat, userData.userId, props.route.params.newChatData]);
 
     return (
@@ -86,8 +110,29 @@ const ChatScreen = props => {
 	    <PageContainer style={{ backgroundColor: "transparent" }}>
 	
 		{
-			!chatId && <Bubble text="This is a new chat. Say Hi" type="system" />	
+			!chatId && <Bubble text="This is a new chat. Say Hi" type="system" />
 		}
+	    	{
+			errorBannerText !== "" && <Bubble text={errorBannerText} type="error" />
+		}
+
+	    {
+		chatId && 
+		<FlatList 
+			data={chatMessages}
+		    	renderItem={(itemData) => {
+				const message = itemData.item;
+				const isOwnMessage = message.sentBy === userData.userId;
+				const messageType = isOwnMessage ? "myMessage" : "thierMessage";
+
+
+				return <Bubble 
+					type={messageType}
+					text={message.text}
+					/>
+			}}
+		/>
+	    }
 
 	    </PageContainer>
 
