@@ -8,7 +8,7 @@ import { useSelector, useDispatch } from "react-redux";
 import PageContainer from "../components/PageContainer"
 import Bubble from "../components/Bubble";
 import { createChat } from "../utils/actions/chatActions";
-import { sendTextMessage } from "../utils/actions/chatActions";
+import { sendTextMessage, sendImage } from "../utils/actions/chatActions";
 import ReplyTo from "../components/ReplyTo";
 import { launchImagePicker } from "../utils/imagePickerHelper";
 import AwesomeAlert from 'react-native-awesome-alerts';
@@ -118,6 +118,9 @@ const ChatScreen = props => {
 			const uploadUrl = await uploadImageAsync(tempImageUri, true);
 			setIsLoading(false);
 
+			await sendImage(chatId, userData.userId, uploadUrl, replyingTo && replyingTo.key);
+
+			setReplyingTo(null);
 			setTempImageUri("");
 		} catch (error) {
 			console.error(error);
@@ -168,6 +171,7 @@ const ChatScreen = props => {
 					date={message.sentAt}
 					setReply={() => setReplyingTo(message)}
 					replyingTo={message.replyTo && chatMessages.find(i => i.key === message.replyTo)}
+					imageUrl={message.imageUrl}
 					/>
 			}}
 		/>

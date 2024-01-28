@@ -1,5 +1,5 @@
 import React, {useRef} from "react";
-import { StyleSheet, View, Text, TouchableWithoutFeedback } from "react-native";
+import { StyleSheet, View, Text, TouchableWithoutFeedback, Image  } from "react-native";
 import colors from "../constants/colors";
 import { Menu, MenuTrigger, MenuOptions, MenuOption } from "react-native-popup-menu";
 import uuid from "react-native-uuid";
@@ -41,7 +41,7 @@ const MenuItem = props => {
 
 
 const Bubble = props => {
-	const { text, type, messageId, chatId, userId, date, setReply, replyingTo, name } = props;
+	const { text, type, messageId, chatId, userId, date, setReply, replyingTo, name, imageUrl  } = props;
 
 
 	const starredMessages = useSelector(state => state.messages.starredMessages[chatId] ?? {});
@@ -128,9 +128,20 @@ const Bubble = props => {
 				}
 				
 
-				<Text style={textStyle}>
+				{
+					!imageUrl &&
+					<Text style={textStyle}>
 					{text}
-				</Text>
+					</Text>
+				}
+
+				{
+					imageUrl &&
+					<Image 
+						source={{ uri: imageUrl }} 
+						style={styles.image} 
+					/>
+				}
 
 			{
 			dateString && <View style={styles.timeContainer}>
@@ -202,6 +213,12 @@ const styles = StyleSheet.create({
 	name: {
 		fontFamily: "Rajdhani",
 		letterSpacing: 0.3,
+	},
+	image: {
+		width: 300,
+		height: 300,
+		marginBottom: 5,
+
 	},
 })
 
